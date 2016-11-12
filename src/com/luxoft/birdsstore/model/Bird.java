@@ -9,6 +9,11 @@ public class Bird extends Animal implements Goods {
     private int count;
     private Money price;
 
+    public Bird(String type, Money price) {
+        this.type = type;
+        this.price = price;
+    }
+
     public void setType(String type) {
         this.type = type;
     }
@@ -35,12 +40,36 @@ public class Bird extends Animal implements Goods {
 
     @Override
     public void sell(int amount) {
-
+    count-=amount;
     }
 
     @Override
     public String getDescription() {
         return description;
+    }
+
+    @Override
+    public String toString() {
+        return "type " + type + '\n' +
+                "count " + count +'\n' +
+                "price " + price +'\n'  +
+                "description " + description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Bird bird = (Bird) o;
+
+        return type.equals(bird.type);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return type.hashCode();
     }
 }
 
