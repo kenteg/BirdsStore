@@ -1,7 +1,8 @@
 package com.luxoft.birdsstore.model;
 
 /**
- * Created by kente on 12.11.2016.
+ * @author Khrishpens Viktor
+ * created Ноябрь 12 2016
  */
 public interface Goods {
 
