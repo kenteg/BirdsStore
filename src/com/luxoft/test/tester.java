@@ -25,8 +25,8 @@ public class tester {
         testStore = BirdsStore.getInstance();
         Bird bird1 = new Bird("Eagle", Money.dollars("100"));
         Bird bird2 = new Bird("Parrot", Money.dollars("50.5"));
-        testStore.addBird(bird1);
-        testStore.addBird(bird2);
+        testStore.addItem(bird1);
+        testStore.addItem(bird2);
     }
 
     @Test

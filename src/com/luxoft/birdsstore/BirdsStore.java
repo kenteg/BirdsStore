@@ -37,8 +37,8 @@ public class BirdsStore {
         // write your code here
     }
 
-    public void addBird(Bird bird) {
-        items.add(bird);
+    public void addItem(Goods item) {
+        items.add(item);
     }
 
 }
