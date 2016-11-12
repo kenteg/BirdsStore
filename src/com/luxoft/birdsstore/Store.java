@@ -11,4 +11,5 @@ import java.util.Set;
 public interface Store {
     void addItem(Goods item);
     Set<Goods> getItems();
+    void sell(Goods item,int amount);
 }

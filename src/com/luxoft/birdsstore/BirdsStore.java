@@ -12,12 +12,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class BirdsStore {
+public class BirdsStore implements Store {
     String name;
-
-    public Set<Goods> getItems() {
-        return items;
-    }
 
     Set<Goods> items = new HashSet<Goods>();
     private static BirdsStore instance;
@@ -39,6 +35,14 @@ public class BirdsStore {
 
     public void addItem(Goods item) {
         items.add(item);
+    }
+
+    public Set<Goods> getItems() {
+        return items;
+    }
+
+    public void sell(Goods item, int amount){
+        
     }
 
 }
