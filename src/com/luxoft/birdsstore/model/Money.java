@@ -16,8 +16,9 @@ public class Money {
     private BigDecimal amount;
     private Currency currency;
 
-    public static Money dollars(BigDecimal amount) {
-        return new Money(amount, USD);
+    public static Money dollars(String amount) {
+        BigDecimal dollar = new BigDecimal(amount);
+        return new Money(dollar, USD);
     }
 
     Money(BigDecimal amount, Currency currency) {
