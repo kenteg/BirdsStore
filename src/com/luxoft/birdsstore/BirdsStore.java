@@ -1,5 +1,6 @@
 package com.luxoft.birdsstore;
 
+import com.luxoft.birdsstore.exceptions.NotEnoughGoodsException;
 import com.luxoft.birdsstore.model.Bird;
 import com.luxoft.birdsstore.model.Goods;
 import com.luxoft.birdsstore.model.Money;
@@ -42,7 +43,12 @@ public class BirdsStore implements Store {
     }
 
     public void sell(Goods item, int amount){
-        
+        try {
+            item.sell(amount);
+        }
+        catch (NotEnoughGoodsException nege){
+            System.err.println(nege.getMessage());
+        }
     }
 
 }

@@ -1,8 +1,10 @@
 package com.luxoft.birdsstore.model;
 
+import com.luxoft.birdsstore.exceptions.NotEnoughGoodsException;
+
 /**
  * @author Khrishpens Viktor
- * created Ноябрь 12 2016
+ *         created Ноябрь 12 2016
  */
 public class Bird extends Animal implements Goods {
     private String type;
@@ -30,7 +32,7 @@ public class Bird extends Animal implements Goods {
 
     @Override
     public void setPrice(Money money) {
-        this.price=money;
+        this.price = money;
     }
 
     @Override
@@ -39,8 +41,11 @@ public class Bird extends Animal implements Goods {
     }
 
     @Override
-    public void sell(int amount) {
-    count-=amount;
+    public void sell(int amount) throws NotEnoughGoodsException {
+        if((count-amount)<0) {
+            throw new NotEnoughGoodsException("Not enough Birds in Stock");
+        }
+        count -= amount;
     }
 
     @Override
@@ -51,8 +56,8 @@ public class Bird extends Animal implements Goods {
     @Override
     public String toString() {
         return "type " + type + '\n' +
-                "count " + count +'\n' +
-                "price " + price +'\n'  +
+                "count " + count + '\n' +
+                "price " + price + '\n' +
                 "description " + description;
     }
 
@@ -70,6 +75,14 @@ public class Bird extends Animal implements Goods {
     @Override
     public int hashCode() {
         return type.hashCode();
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public String getType() {
+        return type;
     }
 }
 
