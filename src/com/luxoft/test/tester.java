@@ -18,11 +18,12 @@ public class tester {
     BirdsStore testStore;
     Bird bird1;
     Bird bird2;
-    public tester(){
+
+    public tester() {
     }
 
     @Before
-    public void init(){
+    public void init() {
         testStore = BirdsStore.getInstance();
         bird1 = new Bird("Eagle", Money.dollars("100"));
         bird2 = new Bird("Parrot", Money.dollars("50.5"));
@@ -33,16 +34,16 @@ public class tester {
 
     @Test
     public void test() {
-        testStore.sell(bird1,10);
-        testStore.sell(bird1,5);
-        assertEquals(testStore.getItems().toString(),"[type Parrot\n" +
+        testStore.sell(bird1, 10);
+        testStore.sell(bird1, 5);
+        assertEquals(testStore.getItems().toString(), "[type Parrot\n" +
                 "count 0\n" +
                 "price USD 50.50\n" +
                 "description null, type Eagle\n" +
                 "count 0\n" +
                 "price USD 100.00\n" +
                 "description null]");
-        assertEquals(bird1.getCount(),0);
+        assertEquals(bird1.getCount(), 0);
     }
 
 
