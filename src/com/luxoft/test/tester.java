@@ -16,21 +16,25 @@ import static org.junit.Assert.*;
 public class tester {
 
     BirdsStore testStore;
-
+    Bird bird1;
+    Bird bird2;
     public tester(){
     }
 
     @Before
     public void init(){
         testStore = BirdsStore.getInstance();
-        Bird bird1 = new Bird("Eagle", Money.dollars("100"));
-        Bird bird2 = new Bird("Parrot", Money.dollars("50.5"));
+        bird1 = new Bird("Eagle", Money.dollars("100"));
+        bird2 = new Bird("Parrot", Money.dollars("50.5"));
         testStore.addItem(bird1);
         testStore.addItem(bird2);
+        bird1.setCount(5);
     }
 
     @Test
     public void test() {
+        testStore.sell(bird1,10);
+        testStore.sell(bird1,5);
         assertEquals(testStore.getItems().toString(),"[type Parrot\n" +
                 "count 0\n" +
                 "price USD 50.50\n" +
@@ -38,6 +42,8 @@ public class tester {
                 "count 0\n" +
                 "price USD 100.00\n" +
                 "description null]");
+        assertEquals(bird1.getCount(),0);
     }
+
 
 }
