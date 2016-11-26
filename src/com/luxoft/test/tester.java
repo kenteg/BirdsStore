@@ -2,6 +2,7 @@ package com.luxoft.test;
 
 import com.luxoft.birdsstore.BirdsStore;
 import com.luxoft.birdsstore.model.Bird;
+import com.luxoft.birdsstore.model.Buyer;
 import com.luxoft.birdsstore.model.Goods;
 import com.luxoft.birdsstore.model.Money;
 import org.junit.Before;
@@ -30,13 +31,22 @@ public class tester {
         testStore.addItem(bird1);
         testStore.addItem(bird2);
         bird1.setCount(5);
+        bird2.setCount(1);
     }
 
     @Test
     public void test() {
-        testStore.sell(bird1, 10);
-        testStore.sell(bird1, 5);
-        assertEquals(testStore.getItems().toString(), "[type Parrot\n" +
+        Buyer buyer1 = new Buyer("Ivan","Ivanov","IvanIvanov@gmail.com");
+        buyer1.addToShoppingCart(bird1);
+        buyer1.addToShoppingCart(bird1);
+        buyer1.addToShoppingCart(bird1);
+        buyer1.addToShoppingCart(bird2);
+        System.out.println(buyer1.getShoppingCart());
+        buyer1.getShoppingCart().pay();
+     //   testStore.sell(bird1, 10);
+        //  testStore.sell(bird1, 5);
+
+ /*       assertEquals(testStore.getItems().toString(), "[type Parrot\n" +
                 "count 0\n" +
                 "price USD 50.50\n" +
                 "description null, type Eagle\n" +
@@ -44,6 +54,8 @@ public class tester {
                 "price USD 100.00\n" +
                 "description null]");
         assertEquals(bird1.getCount(), 0);
+
+        */
     }
 
 

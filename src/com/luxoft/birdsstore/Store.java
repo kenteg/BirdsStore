@@ -2,6 +2,7 @@ package com.luxoft.birdsstore;
 
 import com.luxoft.birdsstore.model.Goods;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -10,6 +11,6 @@ import java.util.Set;
  */
 public interface Store {
     void addItem(Goods item);
-    Set<Goods> getItems();
+    List<Goods> getItems();
     void sell(Goods item,int amount);
 }
