@@ -7,11 +7,21 @@ public class Buyer {
     private String firstName;
     private String lastName;
     private String email;
+    private ShoppingCart shoppingCart;
 
     public Buyer(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        shoppingCart = new ShoppingCart();
+    }
+
+    public ShoppingCart getShoppingCart(){
+        return this.shoppingCart;
+    }
+
+    public void addToShoppingCart(Goods good){
+        shoppingCart.add(good);
     }
 
     public String getFirstName() {
