@@ -55,10 +55,7 @@ public class Bird extends Animal implements Goods {
 
     @Override
     public String toString() {
-        return "type " + type + '\n' +
-                "count " + count + '\n' +
-                "price " + price + '\n' +
-                "description " + description;
+        return type+" "+price;
     }
 
     @Override
