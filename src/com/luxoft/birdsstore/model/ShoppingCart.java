@@ -19,6 +19,10 @@ public class ShoppingCart {
         goods.remove(good);
     }
 
+    public List<Goods> getItems(){
+        return goods;
+    }
+
     public void pay(){
         try {
             for(Goods item:goods) item.sell(1);

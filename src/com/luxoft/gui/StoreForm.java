@@ -5,6 +5,7 @@ import com.luxoft.birdsstore.Store;
 import com.luxoft.birdsstore.model.Bird;
 import com.luxoft.birdsstore.model.Goods;
 import com.luxoft.birdsstore.model.Money;
+import com.luxoft.birdsstore.model.ShoppingCart;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,6 +32,9 @@ public class StoreForm extends JFrame{
     private JButton addNewGoodButton;
     private JTextField editType;
     private JTextField editPrice;
+    Vector<Goods> goodsList;
+    ShoppingCart tempCart=null;
+    Vector<Goods> shoppingCartList;
 
     public StoreForm(){
         super("BirdStore");
@@ -40,7 +44,7 @@ public class StoreForm extends JFrame{
         Store birdStore = BirdsStore.getInstance();
         birdStore.addItem(bird1);
         birdStore.addItem(bird2);
-        Vector<Goods> goodsList = new Vector<Goods>(birdStore.getItems());
+        goodsList = new Vector<Goods>(birdStore.getItems());
         list1.setListData(goodsList);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -49,9 +53,21 @@ public class StoreForm extends JFrame{
         setVisible(true);
         addNewGoodButton.addActionListener(e -> {
             birdStore.addItem(new Bird(editType.getText(),Money.dollars(editPrice.getText())));
-            Vector<Goods> goodsList1 = new Vector<Goods>(birdStore.getItems());
-            list1.setListData(goodsList1);
+            goodsList = new Vector<Goods>(birdStore.getItems());
+            list1.setListData(goodsList);
             list1.updateUI();
+        });
+        addToShoppingCartButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(tempCart==null){
+                    tempCart = new ShoppingCart();
+                }
+                tempCart.add(goodsList.get(list1.getSelectedIndex()));
+                shoppingCartList = new Vector<Goods>(tempCart.getItems());
+                list2.setListData(shoppingCartList);
+                list2.updateUI();
+            }
         });
     }
 

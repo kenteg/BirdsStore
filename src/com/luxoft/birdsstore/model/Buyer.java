@@ -9,11 +9,11 @@ public class Buyer {
     private String email;
     private ShoppingCart shoppingCart;
 
-    public Buyer(String firstName, String lastName, String email) {
+    public Buyer(String firstName, String lastName, String email, ShoppingCart shoppingCart) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        shoppingCart = new ShoppingCart();
+        this.shoppingCart = shoppingCart;
     }
 
     public ShoppingCart getShoppingCart(){
