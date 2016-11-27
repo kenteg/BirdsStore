@@ -4,6 +4,7 @@ import com.luxoft.birdsstore.exceptions.NotEnoughGoodsException;
 import com.luxoft.birdsstore.model.Bird;
 import com.luxoft.birdsstore.model.Goods;
 import com.luxoft.birdsstore.model.Money;
+import com.luxoft.birdsstore.model.Order;
 import com.luxoft.gui.StoreForm;
 import org.junit.Assert;
 import org.junit.Before;
@@ -19,6 +20,13 @@ public class BirdsStore implements Store {
     String name;
 
     Set<Goods> items = new HashSet<Goods>();
+
+    @Override
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    List<Order> orders = new ArrayList<>();
     private static BirdsStore instance;
 
     private BirdsStore() {
@@ -43,6 +51,10 @@ public class BirdsStore implements Store {
 
     public void addItem(Goods item) {
         items.add(item);
+    }
+
+    public void addOrder(Order order){
+        orders.add(order);
     }
 
     public List<Goods> getItems() {
