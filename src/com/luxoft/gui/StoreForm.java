@@ -2,15 +2,16 @@ package com.luxoft.gui;
 
 import com.luxoft.birdsstore.BirdsStore;
 import com.luxoft.birdsstore.Store;
-import com.luxoft.birdsstore.model.Bird;
-import com.luxoft.birdsstore.model.Goods;
-import com.luxoft.birdsstore.model.Money;
-import com.luxoft.birdsstore.model.ShoppingCart;
+import com.luxoft.birdsstore.model.*;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.util.Vector;
 
 import static javafx.scene.input.KeyCode.J;
@@ -24,27 +25,32 @@ public class StoreForm extends JFrame{
     private JPanel panel1;
     private JList list1;
     private JList list2;
-    private JTextField textField1;
-    private JTextField textField2;
-    private JTextField textField3;
+    private JTextField firstNameField;
+    private JTextField lastNameField;
+    private JTextField emailField;
     private JButton addToShoppingCartButton;
     private JButton payButton;
     private JButton addNewGoodButton;
     private JTextField editType;
     private JTextField editPrice;
-    Vector<Goods> goodsList;
-    ShoppingCart tempCart=null;
-    Vector<Goods> shoppingCartList;
+    private JLabel labelTotal;
+    private JList list3;
+    private Vector<Goods> goodsList;
+    private ShoppingCart tempCart=null;
+    private Vector<Goods> shoppingCartList;
+    private Vector<Order> orders;
 
     public StoreForm(){
         super("BirdStore");
         setContentPane(panel1);
+
         Goods bird1 = new Bird("Eagle", Money.dollars("100"));
         Goods bird2 = new Bird("Parrot", Money.dollars("50.5"));
         Store birdStore = BirdsStore.getInstance();
         birdStore.addItem(bird1);
         birdStore.addItem(bird2);
         goodsList = new Vector<Goods>(birdStore.getItems());
+        orders = new Vector<Order>(birdStore.getOrders());
         list1.setListData(goodsList);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -57,16 +63,29 @@ public class StoreForm extends JFrame{
             list1.setListData(goodsList);
             list1.updateUI();
         });
-        addToShoppingCartButton.addActionListener(new ActionListener() {
+        addToShoppingCartButton.addActionListener(e -> {
+            if(tempCart==null){
+                tempCart = new ShoppingCart();
+            }
+            tempCart.add(goodsList.get(list1.getSelectedIndex()));
+            shoppingCartList = new Vector<Goods>(tempCart.getItems());
+            labelTotal.setText(tempCart.getTotalPrice());
+            list2.setListData(shoppingCartList);
+            list2.updateUI();
+        });
+        payButton.addActionListener(e -> {
+            Buyer tempBuyer = new Buyer(firstNameField.getText(),lastNameField.getText(),emailField.getText(),new ShoppingCart(tempCart));
+            Order tempOrder = new Order(tempBuyer,tempBuyer.getShoppingCart());
+            birdStore.addOrder(tempOrder);
+            orders = new Vector<Order>(birdStore.getOrders());
+            table1.setModel(new OrderTableModel(birdStore.getOrders()));
+        });
+
+        table1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                if(tempCart==null){
-                    tempCart = new ShoppingCart();
-                }
-                tempCart.add(goodsList.get(list1.getSelectedIndex()));
-                shoppingCartList = new Vector<Goods>(tempCart.getItems());
-                list2.setListData(shoppingCartList);
-                list2.updateUI();
+            public void valueChanged(ListSelectionEvent e) {
+                Vector<Goods> showShopCart = new Vector(orders.get(table1.getSelectedRow()).getShoppingCart().getItems());
+                       list3.setListData(showShopCart);
             }
         });
     }
