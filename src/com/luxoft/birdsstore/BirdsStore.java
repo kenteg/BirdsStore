@@ -1,16 +1,10 @@
 package com.luxoft.birdsstore;
 
 import com.luxoft.birdsstore.exceptions.NotEnoughGoodsException;
-import com.luxoft.birdsstore.model.Bird;
 import com.luxoft.birdsstore.model.Goods;
-import com.luxoft.birdsstore.model.Money;
 import com.luxoft.birdsstore.model.Order;
 import com.luxoft.gui.StoreForm;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
