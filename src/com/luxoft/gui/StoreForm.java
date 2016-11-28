@@ -1,6 +1,8 @@
 package com.luxoft.gui;
 
 import com.luxoft.birdsstore.BirdsStore;
+import com.luxoft.birdsstore.DAO.DAOGoods;
+import com.luxoft.birdsstore.DAO.DAOGoodsFileImpl;
 import com.luxoft.birdsstore.Store;
 import com.luxoft.birdsstore.model.*;
 
@@ -49,10 +51,11 @@ public class StoreForm extends JFrame{
         Store birdStore = BirdsStore.getInstance();
         birdStore.addItem(bird1);
         birdStore.addItem(bird2);
+        table1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         goodsList = new Vector<Goods>(birdStore.getItems());
         orders = new Vector<Order>(birdStore.getOrders());
         list1.setListData(goodsList);
-
+        table1.setModel(new OrderTableModel(birdStore.getOrders()));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setLocationRelativeTo(null);
@@ -60,6 +63,8 @@ public class StoreForm extends JFrame{
         addNewGoodButton.addActionListener(e -> {
             birdStore.addItem(new Bird(editType.getText(),Money.dollars(editPrice.getText())));
             goodsList = new Vector<Goods>(birdStore.getItems());
+            DAOGoods flStrg = new DAOGoodsFileImpl();
+            flStrg.WriteInStorage(new Bird(editType.getText(),Money.dollars(editPrice.getText())));
             list1.setListData(goodsList);
             list1.updateUI();
         });
@@ -78,12 +83,12 @@ public class StoreForm extends JFrame{
             Order tempOrder = new Order(tempBuyer,tempBuyer.getShoppingCart());
             birdStore.addOrder(tempOrder);
             orders = new Vector<Order>(birdStore.getOrders());
-            table1.setModel(new OrderTableModel(birdStore.getOrders()));
+            //tablemodel
             shoppingCartList.clear();
             tempCart.getItems().clear();
-            table1.clearSelection();
             list2.setListData(shoppingCartList);
             list2.updateUI();
+            table1.updateUI();
         });
 
         table1.getSelectionModel().addListSelectionListener(e -> {
