@@ -12,7 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.util.Vector;
+import java.util.*;
 
 import static javafx.scene.input.KeyCode.J;
 
@@ -79,14 +79,18 @@ public class StoreForm extends JFrame{
             birdStore.addOrder(tempOrder);
             orders = new Vector<Order>(birdStore.getOrders());
             table1.setModel(new OrderTableModel(birdStore.getOrders()));
+            shoppingCartList.clear();
+            tempCart.getItems().clear();
+            table1.clearSelection();
+            list2.setListData(shoppingCartList);
+            list2.updateUI();
         });
 
-        table1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                Vector<Goods> showShopCart = new Vector(orders.get(table1.getSelectedRow()).getShoppingCart().getItems());
-                       list3.setListData(showShopCart);
-            }
+        table1.getSelectionModel().addListSelectionListener(e -> {
+            Goods[] array = new Goods[orders.get(table1.getSelectedRow()).getShoppingCart().getItems().size()];
+            orders.get(table1.getSelectedRow()).getShoppingCart().getItems().toArray(array);
+          //  Vector<Goods> showShopCart = (Vector));
+                   list3.setListData(array);
         });
     }
 
