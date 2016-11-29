@@ -46,8 +46,70 @@ public class StoreForm extends JFrame{
 
     public StoreForm(){
         super("BirdStore");
-        setContentPane(panel1);
+        Store birdStore = init();
+        addNewGoodButton.addActionListener(e -> {
+            OnAddNewGood(birdStore);
+        });
+        addToShoppingCartButton.addActionListener(e -> {
+            OnAddInShopCart();
+        });
+        payButton.addActionListener(e -> {
+            OnPayOrder(birdStore);
+        });
 
+        table1.getSelectionModel().addListSelectionListener(e -> {
+            OnTableSelectChanged();
+        });
+    }
+
+
+
+
+    
+    private void OnTableSelectChanged() {
+        Goods[] array = new Goods[orders.get(table1.getSelectedRow()).getShoppingCart().getItems().size()];
+        orders.get(table1.getSelectedRow()).getShoppingCart().getItems().toArray(array);
+        list3.setListData(array);
+    }
+
+    private void OnPayOrder(Store birdStore) {
+        Buyer tempBuyer = new Buyer(firstNameField.getText(),lastNameField.getText(),emailField.getText(),new ShoppingCart(tempCart));
+        Order tempOrder = new Order(tempBuyer,tempBuyer.getShoppingCart());
+        birdStore.addOrder(tempOrder);
+        DAOOrder daoOrder = new DAOOrderFileImpl();
+        daoOrder.WriteToStorage(tempOrder);
+        orders = new Vector<Order>(birdStore.getOrders());
+        //tablemodel
+        shoppingCartList.clear();
+        tempCart.getItems().clear();
+        tempCart.clearTotalPrice();
+        list2.setListData(shoppingCartList);
+        list2.updateUI();
+        table1.updateUI();
+    }
+
+    private void OnAddInShopCart() {
+        if(tempCart==null){
+            tempCart = new ShoppingCart();
+        }
+        tempCart.add(goodsList.get(list1.getSelectedIndex()));
+        shoppingCartList = new Vector<Goods>(tempCart.getItems());
+        labelTotal.setText(tempCart.getTotalPrice());
+        list2.setListData(shoppingCartList);
+        list2.updateUI();
+    }
+
+    private void OnAddNewGood(Store birdStore) {
+        birdStore.addItem(new Bird(editType.getText(), Money.dollars(editPrice.getText())));
+        goodsList = new Vector<Goods>(birdStore.getItems());
+        DAOGoods flStrg = new DAOGoodsFileImpl();
+        flStrg.WriteInStorage(new Bird(editType.getText(),Money.dollars(editPrice.getText())));
+        list1.setListData(goodsList);
+        list1.updateUI();
+    }
+
+    private Store init() {
+        setContentPane(panel1);
         Goods bird1 = new Bird("Eagle", Money.dollars("100"));
         Goods bird2 = new Bird("Parrot", Money.dollars("50.5"));
         Store birdStore = BirdsStore.getInstance();
@@ -62,49 +124,7 @@ public class StoreForm extends JFrame{
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
-        addNewGoodButton.addActionListener(e -> {
-            birdStore.addItem(new Bird(editType.getText(),Money.dollars(editPrice.getText())));
-            goodsList = new Vector<Goods>(birdStore.getItems());
-            DAOGoods flStrg = new DAOGoodsFileImpl();
-            flStrg.WriteInStorage(new Bird(editType.getText(),Money.dollars(editPrice.getText())));
-            list1.setListData(goodsList);
-            list1.updateUI();
-        });
-        addToShoppingCartButton.addActionListener(e -> {
-            if(tempCart==null){
-                tempCart = new ShoppingCart();
-            }
-            tempCart.add(goodsList.get(list1.getSelectedIndex()));
-            shoppingCartList = new Vector<Goods>(tempCart.getItems());
-            labelTotal.setText(tempCart.getTotalPrice());
-            list2.setListData(shoppingCartList);
-            list2.updateUI();
-        });
-        payButton.addActionListener(e -> {
-            Buyer tempBuyer = new Buyer(firstNameField.getText(),lastNameField.getText(),emailField.getText(),new ShoppingCart(tempCart));
-            Order tempOrder = new Order(tempBuyer,tempBuyer.getShoppingCart());
-            birdStore.addOrder(tempOrder);
-            DAOOrder daoOrder = new DAOOrderFileImpl();
-            daoOrder.WriteToStorage(tempOrder);
-            orders = new Vector<Order>(birdStore.getOrders());
-            //tablemodel
-            shoppingCartList.clear();
-            tempCart.getItems().clear();
-            tempCart.clearTotalPrice();
-            list2.setListData(shoppingCartList);
-            list2.updateUI();
-            table1.updateUI();
-        });
-
-        table1.getSelectionModel().addListSelectionListener(e -> {
-            Goods[] array = new Goods[orders.get(table1.getSelectedRow()).getShoppingCart().getItems().size()];
-            orders.get(table1.getSelectedRow()).getShoppingCart().getItems().toArray(array);
-          //  Vector<Goods> showShopCart = (Vector));
-                   list3.setListData(array);
-        });
+        return birdStore;
     }
 
-    public static void main(String[] args) {
-
-    }
 }

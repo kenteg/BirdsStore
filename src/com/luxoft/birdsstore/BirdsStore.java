@@ -42,14 +42,6 @@ public class BirdsStore implements Store {
         return instance;
     }
 
-    public static void main(String[] args) {
-        // write your code here
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new StoreForm();
-            }
-        });
-    }
 
     public void addItem(Goods item) {
         items.add(item);
