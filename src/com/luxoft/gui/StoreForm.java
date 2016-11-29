@@ -86,6 +86,7 @@ public class StoreForm extends JFrame{
             //tablemodel
             shoppingCartList.clear();
             tempCart.getItems().clear();
+            tempCart.clearTotalPrice();
             list2.setListData(shoppingCartList);
             list2.updateUI();
             table1.updateUI();

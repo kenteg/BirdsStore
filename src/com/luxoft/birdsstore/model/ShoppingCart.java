@@ -47,6 +47,10 @@ public class ShoppingCart {
         return goods;
     }
 
+    public void clearTotalPrice(){
+        totalPrice = Money.dollars("0.00");
+    }
+
     public void pay(){
         try {
             for(Goods item:goods) item.sell(1);
