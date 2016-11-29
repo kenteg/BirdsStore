@@ -3,6 +3,8 @@ package com.luxoft.gui;
 import com.luxoft.birdsstore.BirdsStore;
 import com.luxoft.birdsstore.DAO.DAOGoods;
 import com.luxoft.birdsstore.DAO.DAOGoodsFileImpl;
+import com.luxoft.birdsstore.DAO.DAOOrder;
+import com.luxoft.birdsstore.DAO.DAOOrderFileImpl;
 import com.luxoft.birdsstore.Store;
 import com.luxoft.birdsstore.model.*;
 
@@ -82,6 +84,8 @@ public class StoreForm extends JFrame{
             Buyer tempBuyer = new Buyer(firstNameField.getText(),lastNameField.getText(),emailField.getText(),new ShoppingCart(tempCart));
             Order tempOrder = new Order(tempBuyer,tempBuyer.getShoppingCart());
             birdStore.addOrder(tempOrder);
+            DAOOrder daoOrder = new DAOOrderFileImpl();
+            daoOrder.WriteToStorage(tempOrder);
             orders = new Vector<Order>(birdStore.getOrders());
             //tablemodel
             shoppingCartList.clear();

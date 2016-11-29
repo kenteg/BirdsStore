@@ -17,12 +17,12 @@ public class BirdsStore implements Store {
 
     Set<Goods> items = new HashSet<Goods>();
 
+    List<Order> orders = new ArrayList<>();
+
     @Override
     public List<Order> getOrders() {
         return orders;
     }
-
-    List<Order> orders = new ArrayList<>();
     private static BirdsStore instance;
 
     private BirdsStore() {
