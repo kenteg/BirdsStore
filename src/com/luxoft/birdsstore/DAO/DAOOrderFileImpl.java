@@ -64,7 +64,7 @@ public class DAOOrderFileImpl implements DAOOrder {
             String line;
             String line1;
             String line2;
-            while ((line = reader.readLine()) != null) {
+            while ((line = reader.readLine()) != null){
                 String[] tmp = line.split(";");
                 shoppingCart = new ShoppingCart();
                 for (String aTmp : tmp){
@@ -78,7 +78,7 @@ public class DAOOrderFileImpl implements DAOOrder {
                 buyer=new Buyer(tmp2[0],tmp2[1],tmp2[2],shoppingCart);
 
                 line2=reader3.readLine();
-                order = new Order(buyer,buyer.getShoppingCart());
+                order = new Order(buyer,buyer.getShoppingCart(),line2);
                 returnList.add(order);
 
             }

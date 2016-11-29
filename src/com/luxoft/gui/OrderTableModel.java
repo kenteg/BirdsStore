@@ -55,11 +55,10 @@ class OrderTableModel implements TableModel {
         Order order = orders.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return order.getBuyer().getFirstName() + order.getBuyer().getLastName();
+                return order.getBuyer().getFirstName() +" "+ order.getBuyer().getLastName();
             case 1:
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-                String formatDateTime = order.getDateTime().format(formatter);
-                return order.getDateTime();
+                return order.getDateTime().format(formatter);
             case 2:
                 return order.getBuyer().getShoppingCart().getTotalPrice();
         }
