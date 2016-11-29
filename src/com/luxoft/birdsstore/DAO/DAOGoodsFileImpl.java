@@ -25,7 +25,7 @@ public class DAOGoodsFileImpl implements DAOGoods {
     }
 
     @Override
-    public void ReadFromStorage() {
+    public Set<Goods> ReadFromStorage() {
         String fileName="Goods.shop";
         Set<Goods> returnSet=new HashSet<>();
         try {
@@ -40,12 +40,13 @@ public class DAOGoodsFileImpl implements DAOGoods {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return returnSet;
     }
 
     private Goods extractGoods(String line) {
-        String[] tmp = line.split(";");
+        String[] tmp = line.split(",");
         String type = tmp[0];
-        Money price = Money.dollars(tmp[2]);
+        Money price = Money.dollars(tmp[1]);
         return new Bird(type,price);
     }
 }
