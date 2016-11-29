@@ -65,7 +65,7 @@ public class StoreForm extends JFrame{
 
 
 
-    
+
     private void OnTableSelectChanged() {
         Goods[] array = new Goods[orders.get(table1.getSelectedRow()).getShoppingCart().getItems().size()];
         orders.get(table1.getSelectedRow()).getShoppingCart().getItems().toArray(array);
