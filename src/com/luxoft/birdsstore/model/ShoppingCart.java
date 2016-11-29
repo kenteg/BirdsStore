@@ -26,6 +26,10 @@ public class ShoppingCart {
         return totalPrice.toString();
     }
 
+    public String getTotalAmount(){
+        BigDecimal tmp = totalPrice.getAmount();
+        return tmp.toString();
+    }
     public Money getTotal() {
         return totalPrice;
     }

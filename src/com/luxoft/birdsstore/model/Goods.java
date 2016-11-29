@@ -13,4 +13,5 @@ public interface Goods {
 
     void sell(int amount) throws NotEnoughGoodsException;
     String getDescription();
+    String getName();
 }

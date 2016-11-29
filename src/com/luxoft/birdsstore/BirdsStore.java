@@ -2,6 +2,8 @@ package com.luxoft.birdsstore;
 
 import com.luxoft.birdsstore.DAO.DAOGoods;
 import com.luxoft.birdsstore.DAO.DAOGoodsFileImpl;
+import com.luxoft.birdsstore.DAO.DAOOrder;
+import com.luxoft.birdsstore.DAO.DAOOrderFileImpl;
 import com.luxoft.birdsstore.exceptions.NotEnoughGoodsException;
 import com.luxoft.birdsstore.model.Goods;
 import com.luxoft.birdsstore.model.Order;
@@ -34,6 +36,8 @@ public class BirdsStore implements Store {
             instance = new BirdsStore();
             DAOGoods daoGoods = new DAOGoodsFileImpl();
             instance.items=daoGoods.ReadFromStorage();
+            DAOOrder daoOrder = new DAOOrderFileImpl();
+            instance.orders = daoOrder.ReadFromStorage();
         }
         return instance;
     }

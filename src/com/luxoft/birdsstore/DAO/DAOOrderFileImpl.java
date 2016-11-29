@@ -1,12 +1,14 @@
 package com.luxoft.birdsstore.DAO;
 
-import com.luxoft.birdsstore.model.Goods;
-import com.luxoft.birdsstore.model.Order;
-import com.luxoft.birdsstore.model.ShoppingCart;
+import com.luxoft.birdsstore.model.*;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import static com.sun.org.apache.xalan.internal.lib.ExsltStrings.split;
 
 /**
  * Created by VKhrishpens on 11/29/2016.
@@ -38,15 +40,56 @@ public class DAOOrderFileImpl implements DAOOrder {
 
     private void WriteShoppingCart(Order order, FileWriter fwShCart) throws IOException {
         List<Goods> currentShpCartItems = order.getBuyer().getShoppingCart().getItems();
-        fwShCart.append(order.getBuyer().getShoppingCart().getTotalPrice());
+     //   fwShCart.append(order.getBuyer().getShoppingCart().getTotalAmount()+System.lineSeparator());
         for(Goods curGood:currentShpCartItems) {
-            fwShCart.append(curGood.toString()+",");
+            fwShCart.append(curGood.getName()+","+curGood.getPrice().getAmount()+";");
         }
         fwShCart.append(System.lineSeparator());
     }
 
     @Override
     public List ReadFromStorage() {
-        return null;
+        List <Order> returnList = new ArrayList<>();
+        ShoppingCart shoppingCart;
+        Buyer buyer;
+        Order order;
+        try (
+                LineNumberReader reader = new LineNumberReader(
+                new BufferedReader(new FileReader("ShopCart.shop")));
+                LineNumberReader reader2 = new LineNumberReader(
+                        new BufferedReader(new FileReader("Buyer.shop")));
+                LineNumberReader reader3 = new LineNumberReader(
+                        new BufferedReader(new FileReader("Orders.shop")));
+        ){
+            String line;
+            String line1;
+            String line2;
+            while ((line = reader.readLine()) != null) {
+                String[] tmp = line.split(";");
+                shoppingCart = new ShoppingCart();
+                for (String aTmp : tmp){
+                    String[] item=aTmp.split(",");
+                    String name=item[0];
+                    Money price = Money.dollars(item[1]);
+                    shoppingCart.add(new Bird(name,price));
+                }
+                line1=reader2.readLine();
+                String[] tmp2 = line1.split(",");
+                buyer=new Buyer(tmp2[0],tmp2[1],tmp2[2],shoppingCart);
+
+                line2=reader3.readLine();
+                order = new Order(buyer,buyer.getShoppingCart());
+                returnList.add(order);
+
+            }
+        }
+        catch (FileNotFoundException fnf) {
+            return returnList;
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+   return returnList;
     }
 }

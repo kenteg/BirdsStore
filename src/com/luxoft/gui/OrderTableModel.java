@@ -4,6 +4,7 @@ import com.luxoft.birdsstore.model.Order;
 
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -56,6 +57,8 @@ class OrderTableModel implements TableModel {
             case 0:
                 return order.getBuyer().getFirstName() + order.getBuyer().getLastName();
             case 1:
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                String formatDateTime = order.getDateTime().format(formatter);
                 return order.getDateTime();
             case 2:
                 return order.getBuyer().getShoppingCart().getTotalPrice();

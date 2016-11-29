@@ -54,6 +54,11 @@ public class Bird extends Animal implements Goods {
     }
 
     @Override
+    public String getName() {
+        return this.type;
+    }
+
+    @Override
     public String toString() {
         return type+" "+price;
     }
